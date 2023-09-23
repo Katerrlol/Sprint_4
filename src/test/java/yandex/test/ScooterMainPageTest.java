@@ -19,7 +19,23 @@ public class ScooterMainPageTest {
     private WebDriver driver;
     private final int index;
     private final String expectedText;
-
+    private static String page = "https://qa-scooter.praktikum-services.ru/";
+    private static int arrowone = 0;
+    private static int arrowtwo = 1;
+    private static int arrowthree = 2;
+    private static int arrowfour = 3;
+    private static int arrowfive = 4;
+    private static int arrowsix = 5;
+    private static int arrowseven = 6;
+    private static int arroweight = 7;
+    private static String textone = "Сутки — 400 рублей. Оплата курьеру — наличными или картой.";
+    private static String texttwo = "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.";
+    private static String textthree = "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.";
+    private static  String textfour = "Только начиная с завтрашнего дня. Но скоро станем расторопнее.";
+    private static String textfive = "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.";
+    private static String textsix = "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.";
+    private static String textseven = "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.";
+    private static String texteight = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
     public ScooterMainPageTest(int index, String expectedText) {
         this.index = index;
         this.expectedText = expectedText;
@@ -30,7 +46,8 @@ public class ScooterMainPageTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-blink-features=AutomationControlled", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(page);
+
     }
 
     @After
@@ -42,16 +59,18 @@ public class ScooterMainPageTest {
     @Parameterized.Parameters
     public static Collection<Object[]> provideIndexAndExpected() {
         return Arrays.asList(new Object[][]{
-                {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
-                {2, "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
-                {3, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
-                {4, "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
-                {5, "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
-                {6, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
-                {7, "Да, обязательно. Всем самокатов! И Москве, и Московской области."}
-        });
+                {arrowone, textone},
+                {arrowtwo, texttwo},
+                        {arrowthree, textthree},
+                        {arrowfour, textfour},
+                        {arrowfive, textfive},
+                        {arrowsix, textsix},
+                        {arrowseven, textseven},
+                        {arroweight, texteight}
+                });
     }
+
+
 
 
     @Test
@@ -61,6 +80,7 @@ public class ScooterMainPageTest {
         String actualText = scooterMainPage.getExpandedDropDownElementTextByIndex(index);
         Assert.assertEquals(expectedText, actualText);
     }
+
 
 
 }

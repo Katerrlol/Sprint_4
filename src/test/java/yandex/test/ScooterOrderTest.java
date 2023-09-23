@@ -11,6 +11,27 @@ import yandex.page_object.*;
 
 public class ScooterOrderTest {
     private WebDriver driver;
+    private static String name ="Коля";
+    private static String lastname = "Васильков";
+    private static String city = "Москва";
+    private static String metro = "Черкизовская";
+    private static String phone = "12345678901";
+    private static String fieldname = "Имя";
+    private static String fieldlastname= "Фамилия";
+    private static String fieldaddress = "Адрес";
+    private static String fieldmetro = "Станция метро";
+    private static String fieldphone  = "Телефон";
+    private static String fielddate  = "22.09.2023";
+    private static String fieldamount = "сутки";
+    private static String fieldorder = "Заказ оформлен";
+    private static String nametwo ="Катя";
+    private static String lastnametwo = "Пупкина";
+    private static String citytwo = "Санкт-Петербург";
+    private static String metrotwo = "Бабушкинская";
+    private static String phonetwo = "00362871928";
+    private static String fielddatetwo  = "27.10.2023";
+    private static String fieldamounttwo  = "двое суток";
+
 
     @Before
     public void setUp() {
@@ -34,24 +55,58 @@ public class ScooterOrderTest {
         RentFormPage rentFormPage = new RentFormPage(driver);
         NotificationConfirmOrder notificationConfirmOrder = new NotificationConfirmOrder(driver);
         NotificationReadyOrder notificationReadyOrder = new NotificationReadyOrder(driver);
-
+        try{
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException ie){
+        }
         scooterMainPage.clickOnHeaderOrderButton();
-
-        clientDataFormPage.setValueForField("Имя", "Коля");
-        clientDataFormPage.setValueForField("Фамилия", "Васильков");
-        clientDataFormPage.setValueForField("Адрес", "Москва");
-        clientDataFormPage.setValueForFieldStation("Станция метро", "Черкизовская");
-        clientDataFormPage.setValueForField("Телефон", "12345678901");
+        clientDataFormPage.setValueForField(fieldname , name);
+        clientDataFormPage.setValueForField(fieldlastname, lastname);
+        clientDataFormPage.setValueForField(fieldaddress, city);
+        clientDataFormPage.setValueForFieldStation(fieldmetro, metro);
+        clientDataFormPage.setValueForField(fieldphone, phone);
+        clientDataFormPage.acceptCookiesButton();
+        try{
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException ie){
+        }
+        clientDataFormPage.clickOnNextButton();
+        try{
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException ie){
+        }
+        rentFormPage.setValueForCalendarInput(fielddate);
+        rentFormPage.clickRentPeriod();
+        rentFormPage.selectRentPeriod(fieldamount);
+        rentFormPage.clickOrderButton();
+        notificationConfirmOrder.clickYesButton();
+        Assert.assertTrue(notificationReadyOrder.getHeaderStatusOrder().contains(fieldorder));
+    }
+  @Test
+    public void orderScooterTestTwo() {
+        ScooterMainPage scooterMainPage = new ScooterMainPage(driver);
+        ClientDataFormPage clientDataFormPage = new ClientDataFormPage(driver);
+        RentFormPage rentFormPage = new RentFormPage(driver);
+        NotificationConfirmOrder notificationConfirmOrder = new NotificationConfirmOrder(driver);
+        NotificationReadyOrder notificationReadyOrder = new NotificationReadyOrder(driver);
+        scooterMainPage.scrollToOrderButton();
+        scooterMainPage.clickOnAnotherOrderButton();
+        clientDataFormPage.setValueForField(fieldname, nametwo);
+        clientDataFormPage.setValueForField(fieldlastname, lastnametwo);
+        clientDataFormPage.setValueForField(fieldaddress, citytwo);
+        clientDataFormPage.setValueForFieldStation(fieldmetro, metrotwo);
+        clientDataFormPage.setValueForField(fieldphone, phonetwo);
         clientDataFormPage.acceptCookiesButton();
         clientDataFormPage.clickOnNextButton();
-
-        rentFormPage.setValueForCalendarInput("22.09.2023");
+        rentFormPage.setValueForCalendarInput(fielddatetwo);
         rentFormPage.clickRentPeriod();
-        rentFormPage.selectRentPeriod("сутки");
+        rentFormPage.selectRentPeriod(fieldamounttwo);
         rentFormPage.clickOrderButton();
-
         notificationConfirmOrder.clickYesButton();
-
-        Assert.assertTrue(notificationReadyOrder.getHeaderStatusOrder().contains("Заказ оформлен"));
+        Assert.assertTrue(notificationReadyOrder.getHeaderStatusOrder().contains(fieldorder));
     }
+
 }
